@@ -1,11 +1,12 @@
 import Geolocation from '@react-native-community/geolocation';
-const { makeAutoObservable, runInAction } = require("mobx");
+import { observer } from 'mobx-react-lite';
+const { makeAutoObservable, runInAction, observable } = require("mobx");
 
 
 
 
 
-class Counter {
+class Store {
     
     weatherData = {};
     currentLoc = {};
@@ -15,9 +16,7 @@ class Counter {
     cityPageData= [];
 
     constructor() {
-        
-    makeAutoObservable(this);
-
+        makeAutoObservable(this)
     }
 
     getLocation(){
@@ -49,6 +48,7 @@ class Counter {
             .then(response =>  response.json())
             .then(data => data.cod != 404 ? runInAction(() => {
                 this.favorites.push(data)
+                console.log(data)
         }) : '')}
     }
 
@@ -66,4 +66,4 @@ class Counter {
 
 
 
-export default new Counter();
+export default new Store();

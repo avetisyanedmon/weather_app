@@ -2,11 +2,11 @@ import { observer } from 'mobx-react-lite';
 import store from "../../mobx/store";
 import styled from 'styled-components';
 
+
+
 const HoursWeather = observer(() => {
 
-
-
-const data = store.data.list?.slice(0, 5);
+const data = store.data.slice(0, 5);
 const celsius = store.celsius;
 
 

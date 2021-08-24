@@ -1,13 +1,12 @@
-import React from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
-import store from '../../mobx/store';
 import { Link } from 'react-router-dom';
+import store2 from '../../mobx/store';
 
 
 const Navbar = observer(() => {
 
-    const celsius = store.celsius;
+    const celsius = store2.celsius;
 
     return (
        <Navbardiv>
@@ -20,9 +19,9 @@ const Navbar = observer(() => {
             </Link>
         </Buttondiv>
         <Checkdiv>
-            <input type='radio' checked={celsius} onChange={() => store.changeCels()}/>
+            <input type='radio' checked={celsius} onChange={() => store2.changeCels()}/>
             <p>°C</p>
-            <input type='radio' checked={!celsius} onChange={() => store.changeCels()}/>
+            <input type='radio' checked={!celsius} onChange={() => store2.changeCels()}/>
             <p>°F</p>
         </Checkdiv>
        </Navbardiv>

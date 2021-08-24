@@ -1,4 +1,3 @@
-import React from 'react';
 import store from '../../mobx/store';
 import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react';
@@ -9,31 +8,32 @@ import { useHistory } from 'react-router';
 
 const FavoriteCities = observer(() => {
 
-
-
+    const [title, setTitle] = useState <string>('');
+    const celsius = store.celsius;
     const history = useHistory();
-    
-    const getFull = (name) => {
+    const getFull = (name:string) => {
         history.push({
             pathname: `/city/${name}`,
-            name: name
+            state: name
     });
 };
 
-    
-    const [title, setTitle] = useState('');
-    const celsius = store.celsius;
-    
-    useEffect(() => {
-        store.getLocation()
-    },[])
+
 
     useEffect(() => {
-        setTimeout(() => {
             fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${store?.currentLoc?.lat}&lon=${store?.currentLoc?.lng}&appid=4731ea198a1e19cdc594363ec13377fb`)
             .then(response => response.json())
-            .then(data => store.favorites.length == 0 ? store.favorites.push(data) : '')
-        }, 10)
+            .then(data => store?.favorites?.length == 0 ? store.favorites= [
+                ...store.favorites,
+                
+                    {
+                        name:data.name,
+                        main:{
+                            ...data.main
+                        }
+                    }
+                
+            ] : '')
     },[]);
 
 
@@ -50,11 +50,11 @@ const FavoriteCities = observer(() => {
                 </Button>
             </Inputdiv>
             <Favorites>
-                {store?.favorites?.map(( {name, main} ) => {
+                {store?.favorites?.map(( fav ) => {
                     return (
-                        <Citydiv key={name} role='button' onClick={() => getFull(name)}>
-                            <h1>{name != undefined ? name : ''}</h1>
-                            <p>{celsius ? Math.ceil(main?.temp - 273) + "°C": Math.ceil(((main?.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
+                        <Citydiv key={fav.name} role='button' onClick={() => getFull(fav.name)}>
+                            <h1>{fav.name != undefined ? fav.name : ''}</h1>
+                            <p>{celsius ? Math.ceil(fav.main?.temp - 273) + "°C": Math.ceil(((fav.main?.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
                         </Citydiv>
                     )
                 })}

@@ -5,7 +5,10 @@ import { BrowserRouter as Router, Route} from 'react-router-dom'
 import FavoriteCities from './components/FavoriteCitites/FavoriteCities';
 import FavCityPage from './components/FavCityPage/FavCityPage';
 
+
 const App:React.FC = () => {
+
+ 
   return (
     <Router>
       <div className="App">

@@ -1,9 +1,9 @@
-import { observer } from 'mobx-react-lite';
+import { observer, useObserver } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
-import store from '../../mobx/store';
 import styled from 'styled-components';
 import { Modal } from '@material-ui/core';
 import { useState } from 'react';
+import  store, { Data }  from '../../mobx/store';
 
 
 
@@ -11,29 +11,21 @@ const WeatherOf5Day = observer(() => {
 
     const [open, setOpen] = useState(false);
     const [day, setDay] = useState('');
-    const [modalWeather, setModalWeather] = useState([])
+    const [modalWeather, setModalWeather] = useState<Data[]>([])
     const daysWeather = [];
     const celsius = store.celsius;
     const data = store.data;
 
-
     useEffect(() => {
-        setModalWeather(data?.list?.filter(d => d?.dt_txt?.includes(day)))
-    },[day])
+        setModalWeather(data?.filter(d => d?.dt_txt?.includes(day)))
+    },[day]) 
 
 
-    useEffect(() => {
-        store.getLocation()
-        store.getData()
-    },[]);
-
-
-    for(let i = 0; i < data?.list?.length; i+=8){
-        daysWeather.push(data.list[i])
+    for(let i = 0; i < data?.length; i+=8){
+        daysWeather.push(data[i])
     }
 
-
-    return(
+    return (
         <>
         <Forecast>
             {daysWeather.map((day, id) => {
@@ -54,7 +46,7 @@ const WeatherOf5Day = observer(() => {
             <Modal open={open}>
                 <Modaldiv>
                     <div>
-                        {modalWeather?.map((day, id) => {
+                        {modalWeather?.map((day:Data, id:number) => {
                             return (
                                 <Modalinner key={id}>
                                     <p>{day.dt_txt.slice(11)}</p>
@@ -77,6 +69,7 @@ const Forecast = styled.div`
 width: 20%;
 display: flex;
 margin: 0 auto;
+padding-top: 10%;
 justify-content: center;
 text-align: center;
 `

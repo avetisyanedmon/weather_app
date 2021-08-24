@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import store from '../../mobx/store';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import store, { Data } from '../../mobx/store';
 
 
 
@@ -11,23 +10,26 @@ import styled from 'styled-components';
 const FavCityPage = observer(() => {
 
 const history = useHistory();
-const name = history.location.name; 
+const name: string = history.location.pathname.slice(6); 
 const data = store.cityPageData;
 const celsius = store.celsius;
 const cityWeather = [];
+
+console.log(data)
 
 useEffect(() => {
     store.getCityPageData(name)
 },[name])
 
-for(let i = 0; i < data?.list?.length; i+=8) {
-    cityWeather.push(data.list[i])
+for(let i = 0; i < data?.length; i+=8) {
+    cityWeather.push(data[i])
 }
 
-console.log(name)
+
+
     return (
         <Content>
-           {data?.list?.map((d) => {
+           {data?.map((d: Data) => {
                return (
                    <Weatherdiv>
                     <div>

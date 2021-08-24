@@ -2,10 +2,13 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
+      "ES2017",
+      "ES6",
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "experimentalDecorators": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

@@ -39,3 +39,6 @@ this.data = {
         icon:data.weather[0].icon
     }]
 }
+
+
+onClick={() => getFull(fav.name)}

@@ -6,8 +6,10 @@ import styled from 'styled-components';
 
 const HoursWeather = observer(() => {
 
-const data = store.data.slice(0, 5);
-const celsius = store.celsius;
+    const date = store.weatherDate;
+    const data = !date ? store.data.slice(0, 5): store.data.filter(d => d.dt_txt.includes(date));
+    const celsius = store.celsius;
+    
 
 
     return (

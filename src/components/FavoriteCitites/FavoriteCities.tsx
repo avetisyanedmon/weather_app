@@ -2,22 +2,14 @@ import store from '../../mobx/store';
 import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 
 
 const FavoriteCities = observer(() => {
 
-    const [title, setTitle] = useState <string>('');
+    const [title, setTitle] = useState <string>(''); 
     const celsius = store.celsius;
-    const history = useHistory();
-    const getFull = (name:string) => {
-        history.push({
-            pathname: `/city/${name}`,
-            state: name
-    });
-};
-
 
 
     useEffect(() => {
@@ -52,10 +44,15 @@ const FavoriteCities = observer(() => {
             <Favorites>
                 {store?.favorites?.map(( fav ) => {
                     return (
-                        <Citydiv key={fav.name} role='button' onClick={() => getFull(fav.name)}>
-                            <h1>{fav.name != undefined ? fav.name : ''}</h1>
-                            <p>{celsius ? Math.ceil(fav.main?.temp - 273) + "°C": Math.ceil(((fav.main?.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
-                        </Citydiv>
+                        <Link to='/'>
+                            <Citydiv key={fav.name} role='button' onClick={() => {store.city = fav.name 
+                                                                                  store.haveCity = false
+                                                                                  store.getForecast()}}>
+                                    <h1>{fav.name != undefined ? fav.name : ''}</h1>
+                                    <p>{celsius ? Math.ceil(fav.main?.temp - 273) + "°C": Math.ceil(((fav.main?.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
+                            </Citydiv>
+                        </Link>
+
                     )
                 })}
             </Favorites>
@@ -76,11 +73,13 @@ margin-top: 50px;
 `
 
 const Citydiv = styled.div`
+color: black;
 padding: 10px 15px;
 border: 1px solid #a4a4a4;
 border-radius: 3px;
 margin: 10px 25px;
 cursor: pointer;
+text-overflow: ellipsis;
 `
 const Button = styled.button`
 padding: 5px 10px;

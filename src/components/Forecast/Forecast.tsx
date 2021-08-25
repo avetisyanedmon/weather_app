@@ -1,66 +1,43 @@
-import { observer, useObserver } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import { observer} from 'mobx-react-lite';
 import styled from 'styled-components';
-import { Modal } from '@material-ui/core';
+import  store  from '../../mobx/store';
 import { useState } from 'react';
-import  store, { Data }  from '../../mobx/store';
 
 
 
 const WeatherOf5Day = observer(() => {
 
-    const [open, setOpen] = useState(false);
-    const [day, setDay] = useState('');
-    const [modalWeather, setModalWeather] = useState<Data[]>([])
     const daysWeather = [];
     const celsius = store.celsius;
     const data = store.data;
+    const [active, setActive] = useState(0)
 
-    useEffect(() => {
-        setModalWeather(data?.filter(d => d?.dt_txt?.includes(day)))
-    },[day]) 
 
 
     for(let i = 0; i < data?.length; i+=8){
         daysWeather.push(data[i])
     }
 
+
     return (
         <>
         <Forecast>
-            {daysWeather.map((day, id) => {
+            {daysWeather.map((day, id:number) => {
                 return (
-                    <Weatherdiv  key={id} onClick={() => {
-                        setDay(day?.dt_txt?.slice(0, 10))
-                        setOpen(true)
+                    <Weatherdiv active={active} id={id} key={id} onClick={() => {
+                        store.weatherDate = day.dt_txt.slice(0, 10);
+                        store.forecastNumber = id * 8;
+                        setActive(id)
                     }}>
                         <p>{day?.dt_txt?.slice(5, 10)}</p>
                         <Tempdiv>
                             <h1>{celsius ? Math.ceil(day?.main?.temp - 273) + "°C": Math.ceil(((day?.main?.temp - 273.15) * 9/5 + 32)) + "°F"}  </h1>
-                            <Img  alt="weather" src={`http://openweathermap.org/img/wn/${day?.weather?.[0].icon}.png`}/>
+                            <Img  alt="weather" src={`http://openweathermap.org/img/wn/${day?.weather?.[0].icon}@4x.png`}/>
                         </Tempdiv>
                     </Weatherdiv>
                 )
             })}
             </Forecast>
-            <Modal open={open}>
-                <Modaldiv>
-                    <div>
-                        {modalWeather?.map((day:Data, id:number) => {
-                            return (
-                                <Modalinner key={id}>
-                                    <p>{day.dt_txt.slice(11)}</p>
-                                    <p>{celsius ? Math.ceil(day.main.temp - 273) + "°C": Math.ceil(((day.main.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
-                                    <img alt='icon' src={`http://openweathermap.org/img/wn/${day.weather?.[0].icon}.png`}/>
-                                </Modalinner>
-                            )
-                        })}
-                    </div>
-                    <div>
-                        <Modalbtn onClick={() => setOpen(false)}>X</Modalbtn>
-                    </div>
-                </Modaldiv>
-            </Modal>
     </>
     )
 });
@@ -69,7 +46,7 @@ const Forecast = styled.div`
 width: 20%;
 display: flex;
 margin: 0 auto;
-padding-top: 10%;
+padding-top: 5%;
 justify-content: center;
 text-align: center;
 `
@@ -79,6 +56,10 @@ border: 1px solid black;
 border-radius: 3px;
 margin: 15px;
 cursor: pointer;
+box-shadow:${props => props.active === props.id ? "3px 5px 10px black" : ''} ;
+:hover {
+    box-shadow: 3px 5px 10px black;
+}
 `
 const Tempdiv = styled.div`
 width: 100%;

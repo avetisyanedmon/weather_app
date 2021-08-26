@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import store from "../../mobx/store";
-import styled from 'styled-components';
-
+import { Content, Weatherdiv } from './style';
 
 
 const HoursWeather = observer(() => {
@@ -28,15 +27,6 @@ const HoursWeather = observer(() => {
 });
 
 
-const Content = styled.div`
-width: 15%;
-padding: 15px 50px 0 0;
-`
-const Weatherdiv = styled.div`
-width: 100%;
-display: flex;
-justify-content: space-between;
-border-bottom: 2px solid #a4a4a4;
-`
+
 
 export default HoursWeather;

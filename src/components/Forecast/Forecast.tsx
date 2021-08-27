@@ -18,7 +18,7 @@ const WeatherOf5Day = observer(() => {
             <Styled.Forecast>
                 {daysWeather.map((day, id:number) => {
                     return (
-                        <Styled.Weatherdiv active={active === id}   key={day.name + id} onClick={() => {
+                        <Styled.Weatherdiv active={active === id}   key={day.dt} onClick={() => {
                             store.weatherDate = day.dt_txt.slice(0, 10);
                             store.forecastNumber = id * 8;
                             setActive(id)

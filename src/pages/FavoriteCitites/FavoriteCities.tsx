@@ -17,11 +17,11 @@ const FavoriteCities = observer(() => {
             .then(response => response.json())
             .then(data => store?.favorites?.length === 0 ? store.favorites= [
                 ...store.favorites,
-                
                     {
                         name:data.name,
+                        dt:data.dt,
                         main:{
-                            ...data.main
+                            temp:data.main.temp
                         }
                     }
                 
@@ -42,12 +42,12 @@ const FavoriteCities = observer(() => {
                 </Styled.Button>
             </Styled.Inputdiv>
             <Styled.Favorites>
-                {store?.favorites?.map(( fav, id ) => {
+                {store?.favorites?.map(( fav ) => {
                     return (
-                        <Link to='/'>
-                            <Styled.Citydiv key={fav.name + id} role='button' onClick={() => {store.city = fav.name 
-                                                                                  store.haveCity = false
-                                                                                  store.getForecast()}}>
+                        <Link to='/' key={fav.dt}>
+                            <Styled.Citydiv role='button' onClick={() => {store.city = fav.name 
+                                                                                       store.haveCity = false
+                                                                                       store.getForecast()}}>
                                     <h1>{fav.name !== undefined ? fav.name : ''}</h1>
                                     <p>{celsius ? Math.ceil(fav.main?.temp - 273) + "°C": Math.ceil(((fav.main?.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
                             </Styled.Citydiv>

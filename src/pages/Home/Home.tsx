@@ -5,7 +5,6 @@ import HoursWeather from '../../components/HoursWeather/HoursWeather';
 import { Styled } from './style';
 
 
-
 const Home = observer( () => {    
 
 
@@ -18,7 +17,6 @@ const Home = observer( () => {
     const celsiusTrue = store.celsius;
     const celsius = weatherData ? Math.ceil(temp - 273) + "°C"  : "";
     const fahrenheit = weatherData ? Math.ceil(((temp - 273.15) * 9/5 + 32)) + "°F" : "";
-
 
     return (
         <>

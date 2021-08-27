@@ -5,19 +5,16 @@ import cities from 'cities.json'
 
 interface iFavorite {
     name: string;
+    dt: number;
     main: {
-        feels_like: number;
-        humidity: number;
-        pressure: number;
         temp: number;
-        temp_max: number;
-        temp_min: number;
     }
 }
 
 
 interface iData {
     name: string;
+    dt: number;
     dt_txt: string;
     main: {
         temp: number;
@@ -75,10 +72,11 @@ export class Store {
     getData() {
             fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.currentLoc?.lat}&lon=${this.currentLoc?.lng}&appid=4731ea198a1e19cdc594363ec13377fb`)
                 .then(response => response.json())
-                .then(data =>runInAction(() => {
+                .then(data => runInAction(() => {
                     this.data = data.list.map((day: iData) => ({
                                 name: data.city.name,
                                 dt_txt: day.dt_txt,
+                                dt: day.dt,
                                 main: {
                                     temp: day.main.temp
                                 },
@@ -99,6 +97,7 @@ export class Store {
                 this.data = [
                     ...data.list.map((day: iData) => ({
                             name: data.city.name,
+                            dt:day.dt,
                             dt_txt: day.dt_txt,
                             main: {
                                 temp: day.main.temp
@@ -129,6 +128,7 @@ export class Store {
                                     ...this.favorites,
                                     {
                                         name: data.name,
+                                        dt:data.dt,
                                         main: {
                                             ...data.main
                                         }

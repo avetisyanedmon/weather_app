@@ -44,15 +44,15 @@ const FavoriteCities = observer(() => {
             <Styled.Favorites>
                 {store?.favorites?.map(( fav ) => {
                     return (
-                        <Link to='/' key={fav.dt}>
-                            <Styled.Citydiv role='button' onClick={() => {store.city = fav.name 
+                            <Styled.Citydiv key={fav.dt} onClick={() => {store.city = fav.name 
                                                                                        store.haveCity = false
                                                                                        store.getForecast()}}>
-                                    <h1>{fav.name !== undefined ? fav.name : ''}</h1>
+                                <Link to='/' >
+                                    <Styled.Cityname>{fav.name !== undefined ? fav.name : ''}</Styled.Cityname>
+                                </Link>
                                     <p>{celsius ? Math.ceil(fav.main?.temp - 273) + "°C": Math.ceil(((fav.main?.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
+                                    <Styled.Button onClick={() => {store.favorites = store.favorites.filter(f => f.dt !== fav.dt)}}>Delete</Styled.Button>
                             </Styled.Citydiv>
-                        </Link>
-
                     )
                 })}
             </Styled.Favorites>

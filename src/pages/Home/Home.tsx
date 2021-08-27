@@ -5,6 +5,7 @@ import HoursWeather from '../../components/HoursWeather/HoursWeather';
 import { Styled } from './style';
 
 
+
 const Home = observer( () => {    
 
 

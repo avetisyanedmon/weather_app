@@ -11,6 +11,10 @@ const Favorites = styled.div`
 display: flex;
 margin-top: 50px;
 `
+const Cityname = styled.h1`
+color: black;
+text-decoration:none;
+`
 
 const Citydiv = styled.div`
 color: black;
@@ -18,7 +22,6 @@ padding: 10px 15px;
 border: 1px solid #a4a4a4;
 border-radius: 3px;
 margin: 10px 25px;
-cursor: pointer;
 text-overflow: ellipsis;
 `
 const Button = styled.button`
@@ -37,4 +40,5 @@ export const Styled = {
     Favorites,
     Citydiv,
     Button,
+    Cityname
 }

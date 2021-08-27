@@ -116,7 +116,7 @@ export class Store {
         const myCities = cities as iCity[];
         const myCity = myCities.find(myCity => myCity.name === city) || false;
         if (myCity) {
-            if(this.favorites.some((cityName:any) => cityName.name === city)){
+            if(this.favorites.some((cityName:iFavorite) => cityName.name === city)){
                 alert('City already in list')
             }else {
                 fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4731ea198a1e19cdc594363ec13377fb`)

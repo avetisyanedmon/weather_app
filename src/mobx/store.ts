@@ -49,7 +49,6 @@ export class Store {
 
     constructor() {
         this.getLocation()
-        this.getData()
         makeObservable(this)
     }
 
@@ -60,7 +59,9 @@ export class Store {
                 lat: loc.coords.latitude,
                 lng: loc.coords.longitude
             }
+            this.getData()
         })
+
 
     }
 
@@ -72,26 +73,22 @@ export class Store {
 
     @action
     getData() {
-        setTimeout(() => {
             fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.currentLoc?.lat}&lon=${this.currentLoc?.lng}&appid=4731ea198a1e19cdc594363ec13377fb`)
                 .then(response => response.json())
                 .then(data =>runInAction(() => {
-                    this.data = [
-                        ...this.data,
-                        ...data.list.map((l: iData) => ({
+                    this.data = data.list.map((day: iData) => ({
                                 name: data.city.name,
-                                dt_txt: l.dt_txt,
+                                dt_txt: day.dt_txt,
                                 main: {
-                                    temp: l.main.temp
+                                    temp: day.main.temp
                                 },
                                 weather: [{
-                                    icon: l.weather[0].icon,
-                                    main: l.weather[0].main
+                                    icon: day.weather[0].icon,
+                                    main: day.weather[0].main
                                 }]
                             })
-                        )]
+                        )
                 }))
-        })
     }
 
     @action
@@ -100,15 +97,15 @@ export class Store {
             .then(response => response.json())
             .then(data => runInAction(() => {
                 this.data = [
-                    ...data.list.map((l: iData) => ({
+                    ...data.list.map((day: iData) => ({
                             name: data.city.name,
-                            dt_txt: l.dt_txt,
+                            dt_txt: day.dt_txt,
                             main: {
-                                temp: l.main.temp
+                                temp: day.main.temp
                             },
                             weather: [{
-                                icon: l.weather[0].icon,
-                                main: l.weather[0].main
+                                icon: day.weather[0].icon,
+                                main: day.weather[0].main
                             }]
                         })
                     )]

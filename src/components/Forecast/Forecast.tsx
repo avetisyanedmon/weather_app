@@ -2,6 +2,7 @@ import { observer} from 'mobx-react-lite';
 import  store  from '../../mobx/store';
 import { useState } from 'react';
 import { Styled } from './style';
+import { runInAction } from 'mobx';
 
 const WeatherOf5Day = observer(() => {
     const daysWeather = [];
@@ -18,11 +19,11 @@ const WeatherOf5Day = observer(() => {
             <Styled.Forecast>
                 {daysWeather.map((day, id:number) => {
                     return (
-                        <Styled.Weatherdiv active={active === id}   key={day.dt} onClick={() => {
+                        <Styled.Weatherdiv active={active === id}   key={day.dt} onClick={() => runInAction(() => {
                             store.weatherDate = day.dt_txt.slice(0, 10);
                             store.forecastNumber = id * 8;
                             setActive(id)
-                        }}>
+                        })}>
                             <p>{day?.dt_txt?.slice(5, 10)}</p>
                             <Styled.Tempdiv>
                                 <h1>{celsius ? Math.ceil(day?.main?.temp - 273) + "°C": Math.ceil(((day?.main?.temp - 273.15) * 9/5 + 32)) + "°F"}  </h1>

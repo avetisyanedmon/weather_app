@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import store from "../../mobx/store";
-import { Content, Weatherdiv } from './style';
+import { Styled } from './style';
 
 
 const HoursWeather = observer(() => {
@@ -12,17 +12,17 @@ const HoursWeather = observer(() => {
 
 
     return (
-        <Content>
-            {data?.map((d, id) => {
+        <Styled.Content>
+            {data?.map((day) => {
                 return (
-                    <Weatherdiv key={id}>
-                        <p>{d.dt_txt.slice(11)}</p>
-                        <p>{celsius ? Math.ceil(d.main.temp - 273) + "°C": Math.ceil(((d.main.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
-                        <img alt='icon' src={`http://openweathermap.org/img/wn/${d.weather?.[0].icon}.png`}/>
-                    </Weatherdiv>
+                    <Styled.Weatherdiv key={day.dt}>
+                        <p>{day.dt_txt.slice(11)}</p>
+                        <p>{celsius ? Math.ceil(day.main.temp - 273) + "°C": Math.ceil(((day.main.temp - 273.15) * 9/5 + 32)) + "°F"}</p>
+                        <img alt='icon' src={`http://openweathermap.org/img/wn/${day.weather?.[0].icon}.png`}/>
+                    </Styled.Weatherdiv>
                 )
             })}
-        </Content>
+        </Styled.Content>
     )
 });
 

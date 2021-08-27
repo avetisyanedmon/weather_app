@@ -10,3 +10,7 @@ display: flex;
 justify-content: space-between;
 border-bottom: 2px solid #a4a4a4;
 `
+export const Styled = {
+    Content,
+    Weatherdiv
+}
